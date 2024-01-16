@@ -1,13 +1,10 @@
 'use client'
 
 import Link from 'next/link'
-import { useState } from 'react'
-import Dropdown from './ui/navbar-menu/Dropdown'
 import CategoryMenu from './ui/navbar-menu/CategoryMenu'
 import NavbarIconBtn from './ui/navbar-menu/NavbarIconBtn'
 import SearchIcon from './ui/icon/SearchIcon'
-import SaleIcon from './ui/icon/SaleIcon'
-import { useRouter } from 'next/navigation'
+import HotelIcon from './ui/icon/HotelIcon'
 
 export default function Navbar() {
   return (
@@ -47,7 +44,7 @@ export default function Navbar() {
             <Link
               href='/hotel/register'
               className='text-sm flex items-center justify-center gap-1'>
-              <SaleIcon />
+              <HotelIcon />
               숙소 등록
             </Link>
 
