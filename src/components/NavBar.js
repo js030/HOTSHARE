@@ -5,6 +5,7 @@ import CategoryMenu from './ui/navbar-menu/CategoryMenu'
 import NavbarIconBtn from './ui/navbar-menu/NavbarIconBtn'
 import SearchIcon from './ui/icon/SearchIcon'
 import HotelIcon from './ui/icon/HotelIcon'
+import Dropdown from './ui/navbar-menu/Dropdown'
 
 export default function Navbar() {
   return (
@@ -13,33 +14,17 @@ export default function Navbar() {
         <Link
           href='/'
           className='font-semibold text-2xl flex justify-center items-center px-3 text-sage-750 dark:text-coral-500'>
-          HOT6
+          HOTSIX
         </Link>
         <div className='hidden lg:flex'>
-          <ul className='flex mt-2 gap-2 px-1 text-sage-700 dark:text-cream text-sm font-semibold tracking-widest'>
+          <ul className='flex gap-2 px-1 text-sage-700 dark:text-cream text-sm font-semibold tracking-widest'>
             <CategoryMenu />
           </ul>
         </div>
       </div>
       <div className='flex-none gap-1'>
-        <div className='lg:hidden flex gap-1'>
-          <NavbarIconBtn menu='search' />
-          <NavbarIconBtn menu='write' />
-        </div>
+        <div className='lg:hidden flex gap-1'></div>
         <div className='hidden lg:flex flex-none gap-10 h-full items-center'>
-          <div className='relative bg-zinc-100 rounded-full flex items-center h-10'>
-            <div className='absolute flex items-center inset-y-0 left-0 pl-3 pointer-events-none'>
-              <button>
-                <SearchIcon />
-              </button>
-            </div>
-            <input
-              type='text'
-              placeholder='Search'
-              className='bg-transparent pl-10 pr-5 focus:outline-none text-sm text-neutral-800'
-            />
-          </div>
-
           <div className='flex gap-4'>
             <Link
               href='/hotel/register'
@@ -61,6 +46,7 @@ export default function Navbar() {
           </div>
         </div>
       </div>
+      <Dropdown menu='dropdown' />
     </div>
   )
 }

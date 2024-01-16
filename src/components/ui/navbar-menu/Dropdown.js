@@ -16,14 +16,18 @@ export default function Dropdown({ menu }) {
     }
   }
   return (
-    <div className='dropdown dropdown-end' onBlur={handleOutsideClick}>
+    <div className='relative dropdown dropdown-end' onBlur={handleOutsideClick}>
       <div
         tabIndex={0}
         className={`btn btn-ghost btn-circle ${type.btnClass}`}
         onClick={() => setIsMenuOpen(!isMenuOpen)}>
         {menu === 'avatar' ? <NavbarImageBtn /> : <NavbarIconBtn menu={menu} />}
       </div>
-      {isMenuOpen && <DropdownMenu menu={menu} setIsMenuOpen={setIsMenuOpen} />}
+      {isMenuOpen && (
+        <div className='absolute right-4 z-10 mt-2 bg-white shadow-lg'>
+          <DropdownMenu menu={menu} setIsMenuOpen={setIsMenuOpen} />
+        </div>
+      )}
     </div>
   )
 }

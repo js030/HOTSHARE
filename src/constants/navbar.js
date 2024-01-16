@@ -53,7 +53,6 @@ export const navDefaultMenus = [
   { id: 1, title: '숙소', link: '/hotel' },
   { id: 2, title: '예약하기', link: '/hotel/reserve' },
   { id: 3, title: '결제하기', link: '/hotel/payment' },
-  { id: 4, title: '마이페이지', link: '/mypage' },
 ]
 
 export const navAvatarMenus = [

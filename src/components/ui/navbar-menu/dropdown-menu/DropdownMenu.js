@@ -14,21 +14,16 @@ export default function DropdownMenu({ menu, setIsMenuOpen, login, setLogin }) {
           <div
             style={{ height: '1px' }}
             className='bg-gray-300 block my-3'></div>
-          {user ? (
-            <li>
-              <a>My</a>
-              <ul className='p-2'>
-                <li onClick={() => setIsMenuOpen(false)}>
-                  <Link href='/products/cart'>장바구니</Link>
-                </li>
-                <AvatarMenu setIsMenuOpen={setIsMenuOpen} />
-              </ul>
-            </li>
-          ) : (
-            <Link href='/auth/signin'>
-              <button className='btn ml-2'>로그인</button>
-            </Link>
-          )}
+
+          <li>
+            <a>My</a>
+            <ul className='p-2'>
+              <li onClick={() => setIsMenuOpen(false)}></li>
+              <AvatarMenu setIsMenuOpen={setIsMenuOpen} />
+            </ul>
+          </li>
+
+          <Link href='/auth/signin'></Link>
         </>
       ) : (
         <AvatarMenu setIsMenuOpen={setIsMenuOpen} setLogin={setLogin} />
