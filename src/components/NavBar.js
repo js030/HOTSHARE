@@ -2,8 +2,6 @@
 
 import Link from 'next/link'
 import CategoryMenu from './ui/navbar-menu/CategoryMenu'
-import NavbarIconBtn from './ui/navbar-menu/NavbarIconBtn'
-import SearchIcon from './ui/icon/SearchIcon'
 import HotelIcon from './ui/icon/HotelIcon'
 import Dropdown from './ui/navbar-menu/Dropdown'
 
