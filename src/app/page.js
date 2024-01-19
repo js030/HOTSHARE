@@ -20,6 +20,9 @@ export default function page() {
         <Link href='/mypage' className='btn lg:w-32 '>
           마이페이지
         </Link>
+        <Link href='/hotel/register' className='btn lg:w-32 '>
+          숙소 등록
+        </Link>
       </div>
     </section>
   )

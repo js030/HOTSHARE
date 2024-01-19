@@ -1,5 +1,10 @@
 import React from 'react'
+import HotelType from '@/components/hotel/HotelType'
 
 export default function page() {
-  return <div className='flex justify-center'>호텔 등록 페이지</div>
+  return (
+    <div>
+      <HotelType />
+    </div>
+  )
 }
