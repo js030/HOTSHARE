@@ -3,6 +3,7 @@ import TanstackProvider from '@/context/TanstackProvider'
 import { ToastContainer } from 'react-toastify'
 import Navbar from '@/components/NavBar'
 import { Providers } from '@/app/providers'
+import Script from 'next/script'
 
 export const metadata = {
   title: {
@@ -16,6 +17,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang='ko'>
       <body className='font-jalnan'>
+        <Script
+          strategy='beforeInteractive'
+          src={`https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=${process.env.NEXT_PUBLIC_NAVER_MAP_CLIENT_ID}&submodules=geocoder`}
+        />
         <Providers>
           <ToastContainer
             position='top-center'

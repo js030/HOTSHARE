@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Button } from '@nextui-org/react'
 import {
   FaHome,
@@ -11,19 +11,34 @@ import {
   FaTree,
   FaHouseUser,
   FaShippingFast,
+  FaArrowRight,
 } from 'react-icons/fa'
+import { useRouter } from 'next/navigation'
 
 export default function HotelType() {
+  const router = useRouter()
   const [selectedType, setSelectedType] = useState('')
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    setIsVisible(true)
+  }, [])
 
   const handleSelectType = (type) => {
     setSelectedType(type)
   }
 
+  const handleNext = () => {
+    router.push('/hotel/register/location')
+  }
+
   const isTypeSelected = (type) => selectedType === type
 
   return (
-    <div className='flex flex-col justify-center items-center'>
+    <div
+      className={`flex flex-col justify-center items-center transition-all duration-1000 ease-in-out ${
+        isVisible ? 'translate-y-0 opacity-100' : '-translate-y-10 opacity-0'
+      }`}>
       <div className='flex flex-col'>
         <div className='flex justify-center mb-5'>
           <p>숙소의 유형을 선택해주세요.</p>
@@ -50,6 +65,15 @@ export default function HotelType() {
                 {type}
               </Button>
             ))}
+            <div className='flex justify-center mt-20'>
+              <Button
+                className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
+                onClick={handleNext} // 다음 단계로 넘어가는 함수
+              >
+                <span className='mr-2'>다음</span>
+                <FaArrowRight />{' '}
+              </Button>
+            </div>
           </div>
         </div>
       </div>
