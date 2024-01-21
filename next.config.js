@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  images: { domains: ['mblogthumb-phinf.pstatic.net'] },
+  images: { domains: ['kr.object.ncloudstorage.com'] },
 }
 
 module.exports = nextConfig

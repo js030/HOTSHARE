@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { useEffect } from 'react'
 import CategoryMenu from './ui/navbar-menu/CategoryMenu'
 import HotelIcon from './ui/icon/HotelIcon'
 import Dropdown from './ui/navbar-menu/Dropdown'
