@@ -32,7 +32,8 @@ export default function HotelType() {
     setSelectedType(type)
   }
 
-  const handleNext = () => {
+  const handleNext = (e) => {
+    e.preventDefault()
     router.push('/hotel/register/location')
   }
 

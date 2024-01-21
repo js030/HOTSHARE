@@ -8,8 +8,8 @@ import { useRecoilState } from 'recoil'
 import { hotelPricePerNightState } from '@/util/hotelState'
 
 export default function HotelPrice() {
-  const [price, setPrice] = useRecoilState(hotelPricePerNightState) // Recoil 상태 사용
-  const [numberPrice, setNumberPrice] = useState(0)
+  const [price, setPrice] = useState('')
+  const [numberPrice, setNumberPrice] = useRecoilState(hotelPricePerNightState)
   const [isVisible, setIsVisible] = useState(false)
   const router = useRouter()
 

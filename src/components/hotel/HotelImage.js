@@ -7,10 +7,38 @@ import { useDropzone } from 'react-dropzone'
 import { FaArrowRight, FaArrowLeft } from 'react-icons/fa'
 import { useRouter } from 'next/navigation'
 import { useRecoilState } from 'recoil'
-import { hotelImagesState } from '@/util/hotelState'
+import { useRegisterHotel } from '@/hooks/useHotel'
+import {
+  hotelTypeState,
+  hotelAddressState,
+  hotelDetailAddressState,
+  numberOfBedroomsState,
+  numberOfBedsState,
+  numberOfBathroomsState,
+  maximumGuestsState,
+  hotelAmenitiesState,
+  hotelNameState,
+  hotelDescriptionState,
+  hotelPricePerNightState,
+  hotelImagesState,
+} from '@/util/hotelState'
 
 export default function HotelImage() {
   const [images, setImages] = useRecoilState(hotelImagesState)
+  const [hotelType] = useRecoilState(hotelTypeState)
+  const [hotelAddress] = useRecoilState(hotelAddressState)
+  const [hotelDetailAddress] = useRecoilState(hotelDetailAddressState)
+  const [numberOfBedrooms] = useRecoilState(numberOfBedroomsState)
+  const [numberOfBeds] = useRecoilState(numberOfBedsState)
+  const [numberOfBathrooms] = useRecoilState(numberOfBathroomsState)
+  const [maximumGuests] = useRecoilState(maximumGuestsState)
+  const [hotelAmenities] = useRecoilState(hotelAmenitiesState)
+  const [hotelName] = useRecoilState(hotelNameState)
+  const [hotelDescription] = useRecoilState(hotelDescriptionState)
+  const [hotelPricePerNight] = useRecoilState(hotelPricePerNightState)
+
+  const { submitRegister, isPending, isError, error } = useRegisterHotel()
+
   const router = useRouter()
   const [isVisible, setIsVisible] = useState(false)
 
@@ -18,8 +46,36 @@ export default function HotelImage() {
     setIsVisible(true)
   }, [])
 
-  const handleNext = () => {
-    console.log(images)
+  const handleComplete = () => {
+    const formData = new FormData()
+
+    const hotelInfo = {
+      hotelType: hotelType,
+      hotelAddress: hotelAddress,
+      hotelDetailAddress: hotelDetailAddress,
+      numberOfBedrooms: numberOfBedrooms,
+      numberOfBeds: numberOfBeds,
+      numberOfBathrooms: numberOfBathrooms,
+      maximumGuests: maximumGuests,
+      hotelAmenities: hotelAmenities,
+      hotelName: hotelName,
+      hotelDescription: hotelDescription,
+      hotelPricePerNight: hotelPricePerNight,
+    }
+
+    formData.append(
+      'hotelInfo',
+      new Blob([JSON.stringify(hotelInfo)], { type: 'application/json' })
+    )
+
+    // 이미지 파일 추가
+    images.forEach((image, index) => {
+      console.log(image)
+      formData.append('files', image)
+    })
+
+    submitRegister(formData)
+    router.push('/hotel')
   }
 
   const handlePrevious = () => {
@@ -82,7 +138,7 @@ export default function HotelImage() {
 
         <Button
           className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-5'
-          onClick={handleNext} // 다음 단계로 넘어가는 함수
+          onClick={handleComplete} // 다음 단계로 넘어가는 함수
         >
           <span>등록 완료</span>
           <FaArrowRight />{' '}

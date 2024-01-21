@@ -1,24 +1,25 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import DaumPostcode from '@actbase/react-daum-postcode'
+import Postcode from '@actbase/react-daum-postcode'
 import { useRouter } from 'next/navigation'
 import { Button } from '@nextui-org/react'
 import { FaArrowRight, FaArrowLeft } from 'react-icons/fa'
 import { useRecoilState } from 'recoil'
 import { hotelAddressState } from '@/util/hotelState'
-import { hotelTypeState } from '@/util/hotelState'
 
 export default function HotelLocationSearch() {
   const router = useRouter()
 
   const [hotelAddress, setHotelAddress] = useRecoilState(hotelAddressState) // Recoil 상태 사용
 
-  const handleNext = () => {
+  const handleNext = (e) => {
+    e.preventDefault()
     router.push('/hotel/register/location/map')
   }
 
-  const handlePrevious = () => {
+  const handlePrevious = (e) => {
+    e.preventDefault()
     router.push('/hotel/register')
   }
 
@@ -49,10 +50,7 @@ export default function HotelLocationSearch() {
           </div>
         </div>
 
-        <DaumPostcode
-          jsOptions={{ animation: true }}
-          onSelected={handleAddress}
-        />
+        <Postcode jsOptions={{ animation: true }} onSelected={handleAddress} />
       </div>
       <div className='flex justify-around mt-20'>
         <Button
