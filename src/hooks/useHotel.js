@@ -81,3 +81,25 @@ export const useHotels = (page) => {
 
   return { hotels, isLoading, isFetching, isError, error, isPlaceholderData }
 }
+
+/** 호텔 상세 정보 */
+const fetchHotelDetail = async (hotelId) => {
+  const res = await axios.get(`api/v1/hotel/${hotelId}`)
+
+  return res.data
+}
+
+export const useHotelDetail = (hotelId) => {
+  const {
+    data: hotel,
+    isLoading,
+    isFetching,
+    isError,
+    error,
+  } = useQuery({
+    queryKey: ['hotelDetail', hotelId],
+    queryFn: () => fetchHotelDetail(hotelId),
+  })
+
+  return { hotel, isLoading, isFetching, isError, error }
+}
