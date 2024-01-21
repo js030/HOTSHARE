@@ -59,7 +59,6 @@ const fetchHotels = async (page) => {
   const { data } = await axios.get(`/api/v1/hotel/all?page=${page}`)
 
   console.log('fetchHotels')
-  console.log(data)
 
   return data
 }
@@ -85,6 +84,8 @@ export const useHotels = (page) => {
 /** 호텔 상세 정보 */
 const fetchHotelDetail = async (hotelId) => {
   const res = await axios.get(`api/v1/hotel/${hotelId}`)
+
+  console.log('fetchHotelDetail')
 
   return res.data
 }
