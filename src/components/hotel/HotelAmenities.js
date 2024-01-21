@@ -18,9 +18,11 @@ import {
   MdAcUnit,
 } from 'react-icons/md'
 import { FaArrowLeft, FaArrowRight } from 'react-icons/fa'
+import { useRecoilState } from 'recoil'
+import { hotelAmenitiesState } from '@/util/hotelState'
 
 export default function HotelAmenities() {
-  const [amenities, setAmenities] = useState([])
+  const [amenities, setAmenities] = useRecoilState(hotelAmenitiesState)
   const [isVisible, setIsVisible] = useState(false)
   const router = useRouter()
 

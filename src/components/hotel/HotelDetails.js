@@ -5,12 +5,21 @@ import { MdRemove, MdAdd } from 'react-icons/md'
 import { FaArrowRight, FaArrowLeft } from 'react-icons/fa'
 import { Button } from '@nextui-org/react'
 import { useRouter } from 'next/navigation'
+import { useRecoilState } from 'recoil'
+import {
+  numberOfBedroomsState,
+  numberOfBedsState,
+  numberOfBathroomsState,
+  maximumGuestsState,
+} from '@/util/hotelState'
 
 export default function HotelDetails() {
-  const [bedroomCount, setBedroomCount] = useState(1)
-  const [bedCount, setBedCount] = useState(1)
-  const [bathroomCount, setBathroomCount] = useState(1)
-  const [maxGuestCount, setMaxGuestCount] = useState(1)
+  const [bedroomCount, setBedroomCount] = useRecoilState(numberOfBedroomsState)
+  const [bedCount, setBedCount] = useRecoilState(numberOfBedsState)
+  const [bathroomCount, setBathroomCount] = useRecoilState(
+    numberOfBathroomsState
+  )
+  const [maxGuestCount, setMaxGuestCount] = useRecoilState(maximumGuestsState)
   const [isVisible, setIsVisible] = useState(false)
   const router = useRouter()
 

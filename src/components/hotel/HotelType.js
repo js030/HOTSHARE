@@ -14,10 +14,13 @@ import {
   FaArrowRight,
 } from 'react-icons/fa'
 import { useRouter } from 'next/navigation'
+import { useRecoilState } from 'recoil'
+import { hotelTypeState } from '@/util/hotelState'
 
 export default function HotelType() {
   const router = useRouter()
   const [selectedType, setSelectedType] = useState('')
+  const [hotelType, setHotelType] = useRecoilState(hotelTypeState) // Recoil 상태 사용
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
@@ -25,6 +28,7 @@ export default function HotelType() {
   }, [])
 
   const handleSelectType = (type) => {
+    setHotelType(type)
     setSelectedType(type)
   }
 

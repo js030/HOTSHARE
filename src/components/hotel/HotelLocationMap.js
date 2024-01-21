@@ -6,12 +6,18 @@ import { Input, Button } from '@nextui-org/react'
 import { MdLocationOn } from 'react-icons/md'
 import { FaArrowRight, FaArrowLeft } from 'react-icons/fa'
 import { useRouter } from 'next/navigation'
+import { useRecoilState } from 'recoil'
+import { hotelDetailAddressState } from '@/util/hotelState'
+import { hotelAddressState } from '@/util/hotelState'
 
-export default function HotelLocationMap({ address }) {
+export default function HotelLocationMap() {
   const mapRef = useRef(null) // 지도를 표시할 DOM 요소에 대한 참조
   const [map, setMap] = useState(null) // 지도 인스턴스
   const [isVisible, setIsVisible] = useState(false)
-  const [detailAddress, setDetailAddress] = useState('')
+  const [detailAddress, setDetailAddress] = useRecoilState(
+    hotelDetailAddressState
+  )
+  const [address, setAddress] = useRecoilState(hotelAddressState)
   const router = useRouter()
 
   const handleInputChange = (e) => {

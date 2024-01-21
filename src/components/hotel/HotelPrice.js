@@ -4,9 +4,11 @@ import React, { useState, useEffect } from 'react'
 import { Input, Button } from '@nextui-org/react'
 import { FaArrowRight, FaArrowLeft } from 'react-icons/fa'
 import { useRouter } from 'next/navigation'
+import { useRecoilState } from 'recoil'
+import { hotelPricePerNightState } from '@/util/hotelState'
 
 export default function HotelPrice() {
-  const [price, setPrice] = useState('')
+  const [price, setPrice] = useRecoilState(hotelPricePerNightState) // Recoil 상태 사용
   const [numberPrice, setNumberPrice] = useState(0)
   const [isVisible, setIsVisible] = useState(false)
   const router = useRouter()

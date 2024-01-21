@@ -4,10 +4,12 @@ import React, { useState, useEffect } from 'react'
 import { Input, Textarea, Button } from '@nextui-org/react'
 import { FaArrowRight, FaArrowLeft } from 'react-icons/fa'
 import { useRouter } from 'next/navigation'
+import { useRecoilState } from 'recoil'
+import { hotelNameState, hotelDescriptionState } from '@/util/hotelState'
 
 export default function HotelNickname() {
-  const [nickname, setNickname] = useState('')
-  const [description, setDescription] = useState('')
+  const [nickname, setNickname] = useRecoilState(hotelNameState)
+  const [description, setDescription] = useRecoilState(hotelDescriptionState)
   const [isVisible, setIsVisible] = useState(false)
   const router = useRouter()
 

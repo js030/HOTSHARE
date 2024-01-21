@@ -5,9 +5,14 @@ import DaumPostcode from '@actbase/react-daum-postcode'
 import { useRouter } from 'next/navigation'
 import { Button } from '@nextui-org/react'
 import { FaArrowRight, FaArrowLeft } from 'react-icons/fa'
+import { useRecoilState } from 'recoil'
+import { hotelAddressState } from '@/util/hotelState'
+import { hotelTypeState } from '@/util/hotelState'
 
 export default function HotelLocationSearch() {
   const router = useRouter()
+
+  const [hotelAddress, setHotelAddress] = useRecoilState(hotelAddressState) // Recoil 상태 사용
 
   const handleNext = () => {
     router.push('/hotel/register/location/map')
@@ -31,7 +36,8 @@ export default function HotelLocationSearch() {
       fullAddress += extraAddress !== '' ? ` (${extraAddress})` : ''
     }
 
-    router.push(`/hotel/register/location/map?address=${fullAddress}`)
+    setHotelAddress(fullAddress)
+    router.push(`/hotel/register/location/map`)
   }
 
   return (
