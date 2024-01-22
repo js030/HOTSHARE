@@ -7,8 +7,8 @@ import Link from 'next/link'
 import Pagination from '../Pagination'
 
 export default function HotelMain() {
-  const { hotels, isLoading, isError, error } = useHotels(0)
   const [page, setPage] = useState(0)
+  const { hotels, isLoading, isError, error } = useHotels(page)
 
   if (isLoading) return <div></div>
 
