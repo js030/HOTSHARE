@@ -6,7 +6,7 @@ import { FiXCircle } from 'react-icons/fi'
 import { useDropzone } from 'react-dropzone'
 import { FaArrowRight, FaArrowLeft } from 'react-icons/fa'
 import { useRouter } from 'next/navigation'
-import { useRecoilState } from 'recoil'
+import { useRecoilState, useResetRecoilState } from 'recoil'
 import { useRegisterHotel } from '@/hooks/useHotel'
 import {
   hotelTypeState,
@@ -37,6 +37,19 @@ export default function HotelImage() {
   const [hotelDescription] = useRecoilState(hotelDescriptionState)
   const [hotelPricePerNight] = useRecoilState(hotelPricePerNightState)
 
+  const resetHotelImages = useResetRecoilState(hotelImagesState)
+  const resetHotelType = useResetRecoilState(hotelTypeState)
+  const resetHotelAddress = useResetRecoilState(hotelAddressState)
+  const resetHotelDetailAddress = useResetRecoilState(hotelDetailAddressState)
+  const resetNumberOfBedrooms = useResetRecoilState(numberOfBedroomsState)
+  const resetNumberOfBeds = useResetRecoilState(numberOfBedsState)
+  const resetNumberOfBathrooms = useResetRecoilState(numberOfBathroomsState)
+  const resetMaximumGuests = useResetRecoilState(maximumGuestsState)
+  const resetHotelAmenities = useResetRecoilState(hotelAmenitiesState)
+  const resetHotelName = useResetRecoilState(hotelNameState)
+  const resetHotelDescription = useResetRecoilState(hotelDescriptionState)
+  const resetHotelPricePerNight = useResetRecoilState(hotelPricePerNightState)
+
   const { submitRegister, isPending, isError, error } = useRegisterHotel()
 
   const router = useRouter()
@@ -45,6 +58,22 @@ export default function HotelImage() {
   useEffect(() => {
     setIsVisible(true)
   }, [])
+
+  const resetData = () => {
+    resetHotelImages()
+    resetHotelType()
+    resetHotelAddress()
+    resetHotelDetailAddress()
+    resetNumberOfBedrooms()
+    resetNumberOfBeds()
+    resetNumberOfBathrooms()
+    resetMaximumGuests()
+    resetHotelAmenities()
+    resetHotelName()
+    resetHotelDescription()
+    resetHotelPricePerNight()
+    sessionStorage.removeItem('sessionStorage')
+  }
 
   const handleComplete = () => {
     const formData = new FormData()
@@ -75,6 +104,9 @@ export default function HotelImage() {
     })
 
     submitRegister(formData)
+
+    resetData()
+
     router.push('/hotel')
   }
 

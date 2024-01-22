@@ -1,7 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
-import Postcode from '@actbase/react-daum-postcode'
+import React, { useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@nextui-org/react'
 import { FaArrowRight, FaArrowLeft } from 'react-icons/fa'
@@ -10,8 +9,53 @@ import { hotelAddressState } from '@/util/hotelState'
 
 export default function HotelLocationSearch() {
   const router = useRouter()
-
   const [hotelAddress, setHotelAddress] = useRecoilState(hotelAddressState) // Recoil 상태 사용
+  const postcodeContainer = useRef(null)
+  const isMounted = useRef(true)
+
+  useEffect(() => {
+    isMounted.current = true
+    const scriptId = 'daum-postcode-script'
+    let script = document.getElementById(scriptId)
+
+    const loadScript = () => {
+      script = document.createElement('script')
+      script.id = scriptId
+      script.src =
+        'https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js'
+      document.body.appendChild(script)
+      script.onload = () => {
+        if (isMounted.current) {
+          initializePostcode()
+        }
+      }
+    }
+
+    if (!script) {
+      loadScript()
+    } else {
+      initializePostcode()
+    }
+
+    return () => {
+      isMounted.current = false
+    }
+  }, [])
+
+  const initializePostcode = () => {
+    if (
+      window.daum &&
+      window.daum.Postcode &&
+      postcodeContainer.current &&
+      !postcodeContainer.current.hasChildNodes()
+    ) {
+      new window.daum.Postcode({
+        oncomplete: handleAddress,
+        width: '1000',
+        height: '600',
+      }).embed(postcodeContainer.current)
+    }
+  }
 
   const handleNext = (e) => {
     e.preventDefault()
@@ -49,8 +93,7 @@ export default function HotelLocationSearch() {
             <p>주소를 검색해주세요.</p>
           </div>
         </div>
-
-        <Postcode jsOptions={{ animation: true }} onSelected={handleAddress} />
+        <div ref={postcodeContainer} className='flex justify-center' />
       </div>
       <div className='flex justify-around mt-20'>
         <Button
