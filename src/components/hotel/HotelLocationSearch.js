@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import Postcode from '@actbase/react-daum-postcode'
 import { useRouter } from 'next/navigation'
 import { Button } from '@nextui-org/react'
 import { FaArrowRight, FaArrowLeft } from 'react-icons/fa'
