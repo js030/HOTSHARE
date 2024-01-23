@@ -7,7 +7,7 @@ export default function HotelListItem({ hotel }) {
   const thumbnailImage = hotel.imagesResponse.imageUrl[0]
 
   function formatPrice(price) {
-    return price.toLocaleString('ko-KR')
+    return price?.toLocaleString('ko-KR')
   }
 
   return (

@@ -4,8 +4,10 @@ import React from 'react'
 import { useHotelDetail } from '@/hooks/useHotel'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
+import Link from 'next/link'
 import { FaBed, FaHome, FaKey, FaCalendarCheck } from 'react-icons/fa'
 import {
+  MdBathroom,
   MdFamilyRestroom,
   MdLocationOn,
   MdWifi,
@@ -52,14 +54,26 @@ export default function HotelDetail({ id }) {
   if (isError) return <div>Error: {error.message}</div>
 
   const hotelDetail = hotel.objData
-  const mainImage = hotelDetail.imagesResponse.imageUrl[0]
-  const otherImages = hotelDetail.imagesResponse.imageUrl.slice(1, 5)
+  const mainImage = hotel.imagesResponse.imageUrl[0]
+  const otherImages = hotel.imagesResponse.imageUrl.slice(1, 5)
+
+  console.log(hotel)
 
   return (
     <div className='w-full mx-auto p-4'>
-      <h1 className='text-2xl mb-3 border-b-1 border-gray-700'>
-        {hotelDetail.nickname}
-      </h1>
+      <div className='flex justify-between'>
+        <h1 className='text-2xl mb-3 '>{hotel.nickname}</h1>
+        <div className='flex justify-end items-center gap-2 h-10 text-sm'>
+          <Link href={`/hotel/${id}/modify`}>
+            <span>수정</span>
+          </Link>
+          <button>
+            <span>삭제</span>
+          </button>
+        </div>
+      </div>
+
+      <div className='border-t-2 border-gray-200 mt-4 pt-4'></div>
 
       <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
         <div className='md:col-span-2 mb-4 relative h-[600px]'>
@@ -101,24 +115,28 @@ export default function HotelDetail({ id }) {
             <div className='flex items-center text-lg mb-2'>
               <MdLocationOn className='text-xl mr-2' />
               <p>
-                주소: {hotelDetail.address}, {hotelDetail.addressDetail}
+                주소: {hotel.address}, {hotel.addressDetail}
               </p>
             </div>
             <div className='flex items-center text-lg mb-2'>
               <FaHome className='text-xl mr-2' />
-              <p>숙소 유형: {hotelDetail.hotelType}</p>
+              <p>숙소 유형: {hotel.hotelType}</p>
             </div>
             <div className='flex items-center text-lg mb-2'>
               <FaKey className='text-xl mr-2' />
-              <p>방 개수: {hotelDetail.roomCnt}</p>
+              <p>방 개수: {hotel.roomCnt}</p>
             </div>
             <div className='flex items-center text-lg mb-2'>
               <FaBed className='text-xl mr-2' />
-              <p>침대 개수: {hotelDetail.bedCnt}</p>
+              <p>침대 개수: {hotel.bedCnt}</p>
+            </div>
+            <div className='flex items-center text-lg mb-2'>
+              <MdBathroom className='text-xl mr-2' />
+              <p>화장실 개수: {hotel.bathroomCnt}</p>
             </div>
             <div className='flex items-center text-lg mb-2 '>
               <MdFamilyRestroom className='text-xl mr-2' />
-              <p>최대 수용 인원: {hotelDetail.maxPeople}</p>
+              <p>최대 수용 인원: {hotel.maxPeople}</p>
             </div>
 
             <h2 className='text-xl font-semibold mb-4 mt-5'>편의 시설</h2>
@@ -126,9 +144,7 @@ export default function HotelDetail({ id }) {
               <div className='border-t-2 border-gray-200 mt-4 pt-4'></div>
               <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
                 {amenitiesOptions
-                  .filter((amenity) =>
-                    hotelDetail.facility.includes(amenity.type)
-                  )
+                  .filter((amenity) => hotel.facility.includes(amenity.type))
                   .map((filteredAmenity, index) => (
                     <div key={index} className='flex items-center text-lg mb-2'>
                       {filteredAmenity.icon}
@@ -142,7 +158,7 @@ export default function HotelDetail({ id }) {
               <div className='w-[55vw]'>
                 <div className='border-t-2 border-gray-200 mt-4 pt-4'></div>
                 <div className='flex items-center text-lg mb-2'>
-                  <p>{hotelDetail.description}</p>
+                  <p>{hotel.description}</p>
                 </div>
               </div>
             </div>
@@ -163,7 +179,7 @@ export default function HotelDetail({ id }) {
             <div className='space-y-52 text-lg mb-4'>
               <div className='mt-32'>
                 <span className='font-semibold'>가격: </span>
-                <span className='text-gray-800'>{hotelDetail.price}원/박</span>
+                <span className='text-gray-800'>{hotel.price}원/박</span>
               </div>
               <button
                 onClick={handleReservationButton}

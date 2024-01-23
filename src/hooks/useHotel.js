@@ -85,9 +85,9 @@ export const useHotels = (page) => {
 const fetchHotelDetail = async (hotelId) => {
   const res = await axios.get(`api/v1/hotel/${hotelId}`)
 
-  console.log('fetchHotelDetail')
+  if (!res.data.result) return res.data
 
-  return res.data
+  return res.data.objData
 }
 
 export const useHotelDetail = (hotelId) => {
@@ -103,4 +103,51 @@ export const useHotelDetail = (hotelId) => {
   })
 
   return { hotel, isLoading, isFetching, isError, error }
+}
+
+/** 호텔 정보 수정 */
+const fetchHotelModify = async (hotelId, formData) => {
+  const res = await fileApiAxios.put(
+    `/api/v1/hotel/${hotelId}/modify`,
+    formData
+  )
+
+  return res.data
+}
+
+export const useModifyHotel = () => {
+  const router = useRouter()
+  const queryClient = useQueryClient()
+  const {
+    mutate: submitModify,
+    isPending,
+    isError,
+    error,
+  } = useMutation({
+    mutationFn: ({ hotelId, formData }) => fetchHotelModify(hotelId, formData),
+    onSuccess: (res) => {
+      console.log('호텔 수정 성공')
+      console.log(res)
+
+      if (!res.result) {
+        toast.error('호텔 수정이 이루어지지 않았어요 🥲')
+        return
+      }
+
+      toast.success('호텔 수정이 완료되었습니다!')
+
+      queryClient.invalidateQueries({ queryKey: ['hotelDetail'] })
+      router.back()
+    },
+    onError: (err) => {
+      console.log('상품 수정 실패')
+      console.log(err)
+
+      toast.error('상품 수정이 이루어지지 않았어요 🥲')
+
+      return err
+    },
+  })
+
+  return { submitModify, isPending, isError, error }
 }
