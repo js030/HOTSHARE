@@ -3,37 +3,14 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { useDropzone } from 'react-dropzone'
 import { FiXCircle } from 'react-icons/fi'
-import {
-  FaAddressBook,
-  FaHome,
-  FaBuilding,
-  FaCaravan,
-  FaHotel,
-  FaCampground,
-  FaTree,
-  FaHouseUser,
-  FaShippingFast,
-} from 'react-icons/fa'
-import {
-  MdRemove,
-  MdAdd,
-  MdAddHome,
-  MdDone,
-  MdWifi,
-  MdTv,
-  MdKitchen,
-  MdLocalParking,
-  MdFitnessCenter,
-  MdPool,
-  MdFreeBreakfast,
-  MdOutdoorGrill,
-  MdDeck,
-  MdLocalLaundryService,
-  MdAcUnit,
-} from 'react-icons/md'
+import { amenitiesOptions } from '@/constants/hotel'
+import { getIconForType } from '@/constants/hotel'
+import { hotelTypes } from '@/constants/constants'
+import { MdRemove, MdAdd, MdDone } from 'react-icons/md'
 import { Button } from '@nextui-org/react'
 import { useHotelDetail, useModifyHotel } from '@/hooks/useHotel'
 import { Input, Textarea } from '@nextui-org/react'
+import AddressInput from '@/components/hotel/register/ui/AddressInput'
 
 export default function HotelModify({ id }) {
   const { hotel, isLoading, isError, error } = useHotelDetail(id)
@@ -42,17 +19,17 @@ export default function HotelModify({ id }) {
   const [newImages, setnewImages] = useState([])
   const [selectedType, setSelectedType] = useState('')
   const [roomDetails, setRoomDetails] = useState({
-    hotelName: '',
-    hotelDescription: '',
-    numberOfBedrooms: 1,
-    numberOfBeds: 1,
-    numberOfBathrooms: 1,
-    maximumGuests: 1,
-    hotelAddress: '',
-    hotelDetailAddress: '',
-    hotelPricePerNight: 0,
     hotelType: '',
-    hotelAmenities: [],
+    address: '',
+    addressDetail: '',
+    roomCnt: 1,
+    bedCnt: 1,
+    bathroomCnt: 1,
+    maxPeople: 1,
+    facility: [],
+    nickname: '',
+    description: '',
+    price: 0,
   })
 
   const {
@@ -61,22 +38,6 @@ export default function HotelModify({ id }) {
     isError: isModifyError,
     error: modifyError,
   } = useModifyHotel()
-
-  const amenitiesOptions = [
-    { type: 'WiFi', icon: <MdWifi /> },
-    { type: 'TV', icon: <MdTv /> },
-    { type: '주방', icon: <MdKitchen /> },
-    { type: '건물 내 무료 주차', icon: <MdLocalParking /> },
-    { type: '건물 내 유료 주차', icon: <MdLocalParking /> },
-    { type: '세탁기', icon: <MdLocalLaundryService /> },
-    { type: '에어컨', icon: <MdAcUnit /> },
-    { type: '주차장', icon: <MdLocalParking /> },
-    { type: '헬스장', icon: <MdFitnessCenter /> },
-    { type: '수영장', icon: <MdPool /> },
-    { type: '조식 제공', icon: <MdFreeBreakfast /> },
-    { type: '바베큐 그릴', icon: <MdOutdoorGrill /> },
-    { type: '야외 식사 공간', icon: <MdDeck /> },
-  ]
 
   const isFile = (image) => image instanceof File
   const isTypeSelected = (type) => roomDetails.hotelType === type
@@ -93,17 +54,17 @@ export default function HotelModify({ id }) {
       setImages(hotel.imagesResponse.imageUrl)
     }
     setRoomDetails({
-      numberOfBedrooms: hotel?.roomCnt,
-      numberOfBeds: hotel?.bedCnt,
-      numberOfBathrooms: hotel?.bathroomCnt,
-      maximumGuests: hotel?.maxPeople,
-      hotelAddress: hotel?.address,
-      hotelDetailAddress: hotel?.addressDetail,
-      hotelName: hotel?.nickname,
-      hotelDescription: hotel?.description,
-      hotelPricePerNight: hotel?.price,
       hotelType: hotel?.hotelType,
-      hotelAmenities: Array.isArray(hotel?.facility) ? hotel.facility : [],
+      address: hotel?.address,
+      addressDetail: hotel?.addressDetail,
+      roomCnt: hotel?.roomCnt,
+      bedCnt: hotel?.bedCnt,
+      bathroomCnt: hotel?.bathroomCnt,
+      maxPeople: hotel?.maxPeople,
+      facility: Array.isArray(hotel?.facility) ? hotel.facility : [],
+      nickname: hotel?.nickname,
+      description: hotel?.description,
+      price: hotel?.price,
     })
   }, [hotel])
 
@@ -111,11 +72,6 @@ export default function HotelModify({ id }) {
     setImages((prevImages) => [...prevImages, ...acceptedFiles])
     setnewImages((prevImages) => [...prevImages, ...acceptedFiles])
   }, [])
-
-  console.log(hotel)
-  console.log(hotel?.facility)
-  console.log(newImages)
-  console.log(deletedImages)
 
   const handleIncrement = (field) => () =>
     setRoomDetails((prevDetails) => ({
@@ -139,29 +95,23 @@ export default function HotelModify({ id }) {
   const handleAmenityClick = (amenity) => {
     setRoomDetails((prevDetails) => {
       // 현재 편의시설 목록에서 선택된 편의시설이 이미 있는지 확인
-      const isAmenitySelected = prevDetails.hotelAmenities?.includes(
-        amenity.type
-      )
+      const isAmenitySelected = prevDetails.facility?.includes(amenity.type)
 
       // 선택된 편의시설이 이미 있다면 제거, 없다면 추가
       const updatedAmenities = isAmenitySelected
-        ? prevDetails?.hotelAmenities.filter((item) => item !== amenity.type)
-        : [...prevDetails?.hotelAmenities, amenity.type]
+        ? prevDetails?.facility.filter((item) => item !== amenity.type)
+        : [...prevDetails?.facility, amenity.type]
 
       // 새로운 편의시설 목록으로 상태 업데이트
       return {
         ...prevDetails,
-        hotelAmenities: updatedAmenities,
+        facility: updatedAmenities,
       }
     })
   }
 
   const modifySubmitHandler = (e) => {
     e.preventDefault()
-
-    console.log(roomDetails)
-    console.log(newImages)
-    console.log(deletedImages)
 
     const formData = new FormData()
 
@@ -181,8 +131,6 @@ export default function HotelModify({ id }) {
     if (deletedImages.length > 0) {
       formData.append('deletedImages', deletedImages)
     }
-
-    console.log(formData)
 
     submitModify({ hotelId: id, formData })
   }
@@ -268,38 +216,12 @@ export default function HotelModify({ id }) {
           </div>
         ))}
       </div>
-      <div className='flex flex-col mx-auto w-full mt-10 '>
-        <p className='flex justify-center text-lg'>숙소 주소를 수정해주세요.</p>
-        <div className='border-t-2 border-gray-200 mt-4 pt-4'></div>
-        <div className='flex justify-center items-center space-x-3'>
-          <FaAddressBook className='min-w-fit' size={20} />
-          <input
-            className='flex w-1/2 border border-gray-300 rounded py-2 pl-8 mb-3'
-            type='text'
-            name='hotelAddress'
-            placeholder='주소'
-            value={roomDetails.hotelAddress}
-            onChange={handleChange}
-          />
-          <button
-            onClick={handleSearchAddress}
-            className='px-5 py-1 bg-indigo-500 text-white rounded-md hover:bg-indigo-600 focus:outline-none'>
-            검색
-          </button>
-        </div>
-
-        <div className='flex justify-center items-center space-x-3'>
-          <MdAddHome className='min-w-fit' size={20} />
-          <input
-            className='flex border border-gray-300 rounded py-2 pl-8'
-            type='text'
-            value={roomDetails.hotelDetailAddress}
-            name='hotelDetailAddress'
-            placeholder='상세주소'
-            onChange={handleChange}
-          />
-        </div>
-      </div>
+      <AddressInput
+        address={roomDetails.address}
+        addressDetail={roomDetails.addressDetail}
+        handleChange={handleChange}
+        handleSearchAddress={handleSearchAddress}
+      />
       <div className='mt-10'>
         <p className='flex justify-center text-lg'>
           숙소 기본 정보를 수정해주세요.
@@ -310,13 +232,13 @@ export default function HotelModify({ id }) {
             <p>침실의 개수:</p>
             <button
               className='inline-flex items-center justify-center w-6 h-6 rounded-full bg-red-300 hover:bg-red-500 text-white'
-              onClick={handleDecrement('numberOfBedrooms')}>
+              onClick={handleDecrement('roomCnt')}>
               <MdRemove />
             </button>
-            <p>{roomDetails.numberOfBedrooms}</p>
+            <p>{roomDetails.roomCnt}</p>
             <button
               className='inline-flex  items-center justify-center w-6 h-6 rounded-full bg-blue-300 hover:bg-blue-500 text-white'
-              onClick={handleIncrement('numberOfBedrooms')}>
+              onClick={handleIncrement('roomCnt')}>
               <MdAdd />
             </button>
           </div>
@@ -324,13 +246,13 @@ export default function HotelModify({ id }) {
             <p>침대의 개수:</p>
             <button
               className='inline-flex items-center justify-center w-6 h-6 rounded-full bg-red-300 hover:bg-red-500 text-white'
-              onClick={handleDecrement('numberOfBeds')}>
+              onClick={handleDecrement('bedCnt')}>
               <MdRemove />
             </button>
-            <p>{roomDetails.numberOfBeds}</p>
+            <p>{roomDetails.bedCnt}</p>
             <button
               className='inline-flex items-center justify-center w-6 h-6 rounded-full bg-blue-300 hover:bg-blue-500 text-white'
-              onClick={handleIncrement('numberOfBeds')}>
+              onClick={handleIncrement('bedCnt')}>
               <MdAdd />
             </button>
           </div>
@@ -338,13 +260,13 @@ export default function HotelModify({ id }) {
             <p>욕실의 개수:</p>
             <button
               className='inline-flex items-center justify-center w-6 h-6 rounded-full bg-red-300 hover:bg-red-500 text-white'
-              onClick={handleDecrement('numberOfBathrooms')}>
+              onClick={handleDecrement('bathroomCnt')}>
               <MdRemove />
             </button>
-            <p>{roomDetails.numberOfBathrooms}</p>
+            <p>{roomDetails.bathroomCnt}</p>
             <button
               className='inline-flexitems-center justify-center w-6 h-6 rounded-full bg-blue-300 hover:bg-blue-500 text-white'
-              onClick={handleIncrement('numberOfBathrooms')}>
+              onClick={handleIncrement('bathroomCnt')}>
               <MdAdd />
             </button>
           </div>
@@ -352,13 +274,13 @@ export default function HotelModify({ id }) {
             <p>최대 수용가능 인원:</p>
             <button
               className='inline-flex items-center justify-center w-6 h-6 rounded-full bg-red-300  hover:bg-red-500 text-white'
-              onClick={handleDecrement('maximumGuests')}>
+              onClick={handleDecrement('maxPeople')}>
               <MdRemove />
             </button>
-            <p>{roomDetails.maximumGuests}</p>
+            <p>{roomDetails.maxPeople}</p>
             <button
               className='inline-flex items-center justify-center w-6 h-6 rounded-full bg-blue-300 hover:bg-blue-500 text-white'
-              onClick={handleIncrement('maximumGuests')}>
+              onClick={handleIncrement('maxPeople')}>
               <MdAdd />
             </button>
           </div>
@@ -370,19 +292,19 @@ export default function HotelModify({ id }) {
           <div className='border-t-2 border-gray-200 mt-4 pt-4'></div>
           <div className='flex flex-col space-y-6 items-center'>
             <Input
-              name='hotelName'
+              name='nickname'
               style={{ height: '2rem' }}
               className='w-72'
               placeholder='숙소 이름'
-              value={roomDetails.hotelName}
+              value={roomDetails.nickname}
               onChange={handleChange}
             />
             <Textarea
-              name='hotelDescription'
+              name='description'
               style={{ height: '20rem' }}
               className='w-72'
               placeholder='숙소 설명'
-              value={roomDetails.hotelDescription}
+              value={roomDetails.description}
               onChange={handleChange}
             />
           </div>
@@ -394,10 +316,10 @@ export default function HotelModify({ id }) {
           <div className='border-t-2 border-gray-200 mt-4 pt-4'></div>
           <div className='flex justify-center text-center'>
             <Input
-              name='hotelPricePerNight'
+              name='price'
               className='w-72'
               placeholder='숙박비를 입력하세요 (숫자만)'
-              value={roomDetails.hotelPricePerNight}
+              value={roomDetails.price}
               onChange={handleChange}
             />
             <p className='flex flex-col justify-center ml-3'>원</p>
@@ -410,16 +332,7 @@ export default function HotelModify({ id }) {
           </p>
           <div className='border-t-2 border-gray-200 mt-4 pt-4'></div>
           <div className='grid grid-cols-2 sm:grid-cols-3 gap-6'>
-            {[
-              '주택',
-              '아파트',
-              '캠핑카',
-              '호텔',
-              '텐트',
-              '통나무집',
-              '게스트용 별채',
-              '컨테이너 하우스',
-            ].map((type, index) => (
+            {hotelTypes.map((type, index) => (
               <Button
                 key={index}
                 className={`bg-amber-500 hover:bg-amber-700 text-white font-bold py-3 px-6 rounded ${
@@ -444,20 +357,18 @@ export default function HotelModify({ id }) {
               name='hotelAmenities'
               key={amenity.type}
               color={
-                roomDetails?.hotelAmenities?.includes(amenity.type)
+                roomDetails?.facility?.includes(amenity.type)
                   ? 'primary'
                   : 'default'
               }
               onClick={() => handleAmenityClick(amenity)}>
               {amenity.icon} {amenity.type}{' '}
-              {roomDetails?.hotelAmenities?.includes(amenity.type) && (
-                <MdDone />
-              )}
+              {roomDetails?.facility?.includes(amenity.type) && <MdDone />}
             </Button>
           ))}
         </div>
         <div className='flex justify-center mt-5'>
-          선택된 편의 시설: {roomDetails?.hotelAmenities.join(', ')}
+          선택된 편의 시설: {roomDetails?.facility.join(', ')}
         </div>
       </div>
       <div className='w-full flex justify-center items-center mt-5 '>
@@ -467,27 +378,4 @@ export default function HotelModify({ id }) {
       </div>
     </div>
   )
-}
-
-function getIconForType(type) {
-  switch (type) {
-    case '주택':
-      return <FaHome />
-    case '아파트':
-      return <FaBuilding />
-    case '캠핑카':
-      return <FaCaravan />
-    case '호텔':
-      return <FaHotel />
-    case '텐트':
-      return <FaCampground />
-    case '통나무집':
-      return <FaTree />
-    case '게스트용 별채':
-      return <FaHouseUser />
-    case '컨테이너 하우스':
-      return <FaShippingFast />
-    default:
-      return null
-  }
 }

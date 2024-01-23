@@ -22,26 +22,10 @@ import {
   MdOutdoorGrill,
   MdDeck,
 } from 'react-icons/md'
+import {amenitiesOptions} from "@/constants/hotel";
 
 export default function HotelDetail({ id }) {
   const router = useRouter()
-
-  const amenitiesOptions = [
-    { type: '와이파이', icon: <MdWifi /> },
-    { type: 'TV', icon: <MdTv /> },
-    { type: '주방', icon: <MdKitchen /> },
-    { type: '건물 내 무료 주차', icon: <MdLocalParking /> },
-    { type: '건물 내 유료 주차', icon: <MdLocalParking /> },
-    { type: '세탁기', icon: <MdLocalLaundryService /> },
-    { type: '에어컨', icon: <MdAcUnit /> },
-    { type: '주차장', icon: <MdLocalParking /> },
-    { type: '헬스장', icon: <MdFitnessCenter /> },
-    { type: '수영장', icon: <MdPool /> },
-    { type: '조식 제공', icon: <MdFreeBreakfast /> },
-    { type: '바베큐 그릴', icon: <MdOutdoorGrill /> },
-    { type: '야외 식사 공간', icon: <MdDeck /> },
-  ]
-
   const handleReservationButton = (e) => {
     e.preventDefault()
 
