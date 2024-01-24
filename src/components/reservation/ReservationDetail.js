@@ -80,9 +80,6 @@ export default function ReservationDetail({ id }) {
 						/>
 					</div>
 					<div style={styles.paymentInfo}>
-						<div style={styles.paymentMethodBox}></div>
-					</div>
-					<div style={styles.paymentInfo}>
 						<div style={styles.detailsRow}>
 							<span>결제 금액</span>
 							<span>{`${reservationData.paidPrice}원`}</span>
