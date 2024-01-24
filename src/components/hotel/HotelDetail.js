@@ -10,6 +10,7 @@ import { MdBathroom, MdFamilyRestroom, MdLocationOn } from 'react-icons/md'
 import ConfirmAlert from '../ui/modal/ConfirmAlert'
 import { amenitiesOptions } from '@/constants/hotel'
 import { useDeleteHotel } from '@/hooks/useHotel'
+import { formatPrice } from '@/constants/hotel'
 
 export default function HotelDetail({ id }) {
   const router = useRouter()
@@ -157,7 +158,9 @@ export default function HotelDetail({ id }) {
             <div className='space-y-52 text-lg mb-4'>
               <div className='mt-32'>
                 <span className='font-semibold'>가격: </span>
-                <span className='text-gray-800'>{hotel.price}원/박</span>
+                <span className='text-gray-800'>
+                  {formatPrice(hotel.price)}원/박
+                </span>
               </div>
               <button
                 onClick={handleReservationButton}
