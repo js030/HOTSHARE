@@ -11,7 +11,7 @@ import 'react-toastify/dist/ReactToastify.css'
 
 /** 호텔 등록 */
 const fetchRegisterHotel = async (formData) => {
-  return await fileApiAxios.post('/api/v1/hotel/register', formData)
+  return await fileApiAxios.post('/api/v1/hotels', formData)
 }
 
 export const useRegisterHotel = () => {
@@ -56,7 +56,7 @@ export const useRegisterHotel = () => {
 }
 
 const fetchHotels = async (page) => {
-  const { data } = await axios.get(`/api/v1/hotel/all?page=${page}`)
+  const { data } = await axios.get(`/api/v1/hotels?page=${page}`)
 
   console.log('fetchHotels')
 
@@ -83,7 +83,7 @@ export const useHotels = (page) => {
 
 /** 호텔 상세 정보 */
 const fetchHotelDetail = async (hotelId) => {
-  const res = await axios.get(`api/v1/hotel/${hotelId}`)
+  const res = await axios.get(`api/v1/hotels/${hotelId}`)
 
   if (!res.data.result) return res.data
 
@@ -107,10 +107,7 @@ export const useHotelDetail = (hotelId) => {
 
 /** 호텔 정보 수정 */
 const fetchHotelModify = async (hotelId, formData) => {
-  const res = await fileApiAxios.put(
-    `/api/v1/hotel/${hotelId}/modify`,
-    formData
-  )
+  const res = await fileApiAxios.put(`/api/v1/hotels/${hotelId}`, formData)
 
   return res.data
 }
@@ -150,4 +147,48 @@ export const useModifyHotel = () => {
   })
 
   return { submitModify, isPending, isError, error }
+}
+
+/** 호텔 삭제 */
+const fetchHotelDelete = async (hotelId) => {
+  const res = await axios.delete(`/api/v1/hotels/${hotelId}`)
+
+  return res.data
+}
+
+export const useDeleteHotel = (hotelId) => {
+  const router = useRouter()
+  const queryClient = useQueryClient()
+  const {
+    mutate: submitDelete,
+    isPending,
+    isError,
+    error,
+  } = useMutation({
+    mutationFn: () => fetchHotelDelete(hotelId),
+    onSuccess: (res) => {
+      console.log('호텔 삭제 성공')
+      console.log(res)
+
+      if (!res.result) {
+        toast.error('호텔이 삭제되지 않았어요 🥲')
+        return
+      }
+
+      toast.success('호텔이 삭제되었습니다!')
+
+      queryClient.invalidateQueries({ queryKey: ['hotels'] })
+      router.replace('/hotel')
+    },
+    onError: (err) => {
+      console.log('호텔 삭제 실패')
+      console.log(err)
+
+      toast.error('호텔이 삭제되지 않았어요 🥲')
+
+      return err
+    },
+  })
+
+  return { submitDelete, isPending, isError, error }
 }

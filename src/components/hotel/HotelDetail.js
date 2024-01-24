@@ -1,28 +1,15 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import { useHotelDetail } from '@/hooks/useHotel'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
 import { FaBed, FaHome, FaKey, FaCalendarCheck } from 'react-icons/fa'
-import {
-  MdBathroom,
-  MdFamilyRestroom,
-  MdLocationOn,
-  MdWifi,
-  MdTv,
-  MdKitchen,
-  MdLocalParking,
-  MdLocalLaundryService,
-  MdAcUnit,
-  MdFitnessCenter,
-  MdPool,
-  MdFreeBreakfast,
-  MdOutdoorGrill,
-  MdDeck,
-} from 'react-icons/md'
-import {amenitiesOptions} from "@/constants/hotel";
+import { MdBathroom, MdFamilyRestroom, MdLocationOn } from 'react-icons/md'
+import ConfirmAlert from '../ui/modal/ConfirmAlert'
+import { amenitiesOptions } from '@/constants/hotel'
+import { useDeleteHotel } from '@/hooks/useHotel'
 
 export default function HotelDetail({ id }) {
   const router = useRouter()
@@ -33,11 +20,12 @@ export default function HotelDetail({ id }) {
   }
 
   const { hotel, isLoading, isError, error } = useHotelDetail(id)
+  const { submitDelete, isPending } = useDeleteHotel(id)
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false)
 
   if (isLoading) return <div></div>
   if (isError) return <div>Error: {error.message}</div>
 
-  const hotelDetail = hotel.objData
   const mainImage = hotel.imagesResponse.imageUrl[0]
   const otherImages = hotel.imagesResponse.imageUrl.slice(1, 5)
 
@@ -51,7 +39,7 @@ export default function HotelDetail({ id }) {
           <Link href={`/hotel/${id}/modify`}>
             <span>수정</span>
           </Link>
-          <button>
+          <button onClick={() => setIsConfirmOpen(true)}>
             <span>삭제</span>
           </button>
         </div>
@@ -175,6 +163,14 @@ export default function HotelDetail({ id }) {
           </div>
         </div>
       </div>
+      {isConfirmOpen && (
+        <ConfirmAlert
+          isOpen={isConfirmOpen}
+          onClose={() => setIsConfirmOpen(false)}
+          onSubmit={submitDelete}>
+          삭제시 복구가 불가능합니다. <br /> 정말로 삭제하시겠어요?
+        </ConfirmAlert>
+      )}
     </div>
   )
 }
