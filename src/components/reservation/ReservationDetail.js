@@ -5,8 +5,6 @@ import { useReservationDetail } from '@/hooks/useReservation'
 import { Button } from '@nextui-org/react'
 
 export default function ReservationDetail({ id }) {
-	console.log(id)
-
 	const { reservation, isLoading, isError, error } = useReservationDetail(id)
 
 	if (isLoading) {
@@ -20,12 +18,26 @@ export default function ReservationDetail({ id }) {
 	const reservationData = reservation.objData
 	
 	// createdAt 날짜 형식을 'nnnn.nn.nn' 형태로 포맷
-	const formattedCreatedAt = new Date(reservationData.createdAt).toLocaleDateString('ko-KR').replace(/\./g, '').split(' ').join('.');
+	const formattedCreatedAt = new Date(reservationData.createdAt).toLocaleDateString('ko-KR', {
+		year: 'numeric',
+		month: '2-digit',
+		day: '2-digit'
+	}).replace(/\./g, '').split(' ').join('.');
 
 	// 예약 날짜 포맷 'nnnn.nn.nn ~ nnnn.nn.nn' 형태로 포맷
-	const formattedCheckInDate = new Date(reservationData.checkInDate).toLocaleDateString('ko-KR').replace(/\./g, '').split(' ').join('.');
-	const formattedCheckOutDate = new Date(reservationData.checkOutDate).toLocaleDateString('ko-KR').replace(/\./g, '').split(' ').join('.');
-	
+	const formattedCheckInDate = new Date(reservationData.checkInDate).toLocaleDateString('ko-KR', {
+		year: 'numeric',
+		month: '2-digit',
+		day: '2-digit'
+	}).replace(/\./g, '').split(' ').join('.');
+	const formattedCheckOutDate = new Date(reservationData.checkOutDate).toLocaleDateString('ko-KR', {
+		year: 'numeric',
+		month: '2-digit',
+		day: '2-digit'
+	}).replace(/\./g, '').split(' ').join('.');
+
+	const staticImageUrl = '/tosspay.png';
+
 	return (
 		<div style={styles.container}>
 			<div style={styles.contentSection}>
@@ -35,7 +47,11 @@ export default function ReservationDetail({ id }) {
 						<span style={styles.date}>{formattedCreatedAt}</span>
 					</div>
 					<div style={styles.hotelInfo}>
-						<div style={styles.imagePlaceholder}>숙소 대표 이미지 자리</div>
+						<img
+							src={reservationData.hotelPhotoUrl}
+							alt="숙소 대표 이미지"
+							style={styles.image}
+						/>
 						<div>
 							<h2 style={styles.hotelName}>{reservationData.hotelNickname}</h2>
 							<p style={styles.hotelDesc}>{reservationData.hotelDescription}</p>
@@ -57,8 +73,13 @@ export default function ReservationDetail({ id }) {
 					<span style={styles.paymentTitle}>결제 상세</span>
 					<div style={styles.paymentMethod}>
 						<span style={styles.paymentMethodTitle}>결제 수단</span>
-						<div style={styles.paymentMethodBox}></div>
-					</div>					<div style={styles.paymentInfo}>
+						<img
+							src={staticImageUrl}
+							alt="결제 수단 이미지"
+							style={styles.paymentMethodImage}
+						/>
+					</div>
+					<div style={styles.paymentInfo}>
 						<div style={styles.detailsRow}>
 							<span>결제 금액</span>
 							<span>{`${reservationData.paidPrice}원`}</span>
@@ -101,7 +122,7 @@ const styles = {
 		alignItems: 'flex-start'
 	},
 	paymentTitle: {
-		fontSize: '1rem',
+		fontSize: '1.5rem',
 		fontWeight: 'bold',
 		marginBottom: '10px',
 	},
@@ -114,16 +135,12 @@ const styles = {
 		fontWeight: 'bold',
 		marginBottom: '5px',
 	},
-	paymentMethodBox: {
-		width: '100%', // or fixed width like '200px'
-		height: '50px', // or fixed height like '50px'
+	paymentMethodImage: {
+		width: '150px',
+		height: '100px',
 		border: '1px solid #eaeaea',
 		borderRadius: '8px',
-		display: 'flex',
-		alignItems: 'center',
-		justifyContent: 'center',
-		// Placeholder content, replace with actual content as needed
-		content: "'선택된 결제 방법'", 
+		objectFit: 'cover', // 이미지가 컨테이너를 채우도록 설정
 	},
 	divider: {
 		width: '1px',
@@ -137,6 +154,7 @@ const styles = {
 		marginBottom: '20px',
 	},
 	title: {
+		fontSize: '1.5rem',
 		margin: 0,
 	},
 	date: {
@@ -147,11 +165,12 @@ const styles = {
 		display: 'flex',
 		marginBottom: '20px',
 	},
-	imagePlaceholder: {
+	image: {
 		width: '200px',
 		height: '200px',
-		backgroundColor: '#f0f0f0',
+		objectFit: 'cover', // 이미지가 비율을 유지하며 컨테이너를 채우도록 설정
 		marginRight: '20px',
+		borderRadius: '8px', // 필요한 경우 이미지에 둥근 모서리를 적용
 	},
 	hotelName: {
 		margin: '0 0 10px 0',
