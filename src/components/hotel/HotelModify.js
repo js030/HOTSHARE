@@ -11,6 +11,7 @@ import { Button } from '@nextui-org/react'
 import { useHotelDetail, useModifyHotel } from '@/hooks/useHotel'
 import { Input, Textarea } from '@nextui-org/react'
 import AddressInput from '@/components/hotel/register/ui/AddressInput'
+import { toast } from 'react-toastify'
 
 export default function HotelModify({ id }) {
   const { hotel, isLoading, isError, error } = useHotelDetail(id)
@@ -86,10 +87,23 @@ export default function HotelModify({ id }) {
     }))
 
   const handleChange = (e) => {
-    setRoomDetails({
-      ...roomDetails,
-      [e.target.name]: e.target.value,
-    })
+    const { name, value } = e.target
+
+    // 'price' 필드일 경우에만 숫자 입력 허용
+    if (name === 'price') {
+      if (/^[0-9\b]*$/.test(value)) {
+        setRoomDetails((prevState) => ({
+          ...prevState,
+          [name]: value,
+        }))
+      }
+    } else {
+      // 'price'가 아닌 다른 필드는 기존 방식대로 처리
+      setRoomDetails((prevState) => ({
+        ...prevState,
+        [name]: value,
+      }))
+    }
   }
 
   const handleAmenityClick = (amenity) => {
@@ -112,6 +126,41 @@ export default function HotelModify({ id }) {
 
   const modifySubmitHandler = (e) => {
     e.preventDefault()
+
+    if (images.length + newImages.length - deletedImages.length < 5) {
+      toast.error('숙소 사진은 최소 5장 이상이어야 합니다.')
+      return
+    }
+
+    if (!roomDetails.address) {
+      toast.error('주소를 입력해주세요.')
+      return
+    }
+
+    if (!roomDetails.addressDetail) {
+      toast.error('상세 주소를 입력해주세요.')
+      return
+    }
+
+    if (!roomDetails.nickname) {
+      toast.error('숙소 이름을 입력해주세요.')
+      return
+    }
+
+    if (!roomDetails.description) {
+      toast.error('숙소 설명을 입력해주세요.')
+      return
+    }
+
+    if (!roomDetails.price) {
+      toast.error('숙박비를 입력해주세요.')
+      return
+    }
+
+    if (!roomDetails.hotelType) {
+      toast.error('숙소 유형을 선택해주세요.')
+      return
+    }
 
     const formData = new FormData()
 

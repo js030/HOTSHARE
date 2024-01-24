@@ -22,6 +22,7 @@ import {
   hotelPricePerNightState,
   hotelImagesState,
 } from '@/util/hotelState'
+import { toast } from 'react-toastify'
 
 export default function HotelImage() {
   const [images, setImages] = useRecoilState(hotelImagesState)
@@ -75,12 +76,19 @@ export default function HotelImage() {
     sessionStorage.removeItem('sessionStorage')
   }
 
-  const handleComplete = () => {
+  const handleComplete = (e) => {
+    e.preventDefault()
+
+    if (images.length < 5) {
+      toast.error('숙소 사진을 5장 이상 등록해주세요.')
+      return
+    }
+
     const formData = new FormData()
 
     const hotelInfo = {
       hotelType: hotelType,
-      address : address,
+      address: address,
       addressDetail: addressDetail,
       roomCnt: roomCnt,
       bedCnt: bedCnt,

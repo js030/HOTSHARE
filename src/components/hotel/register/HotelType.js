@@ -2,14 +2,13 @@
 
 import React, { useState, useEffect } from 'react'
 import { Button } from '@nextui-org/react'
-import {
-  FaArrowRight,
-} from 'react-icons/fa'
+import { FaArrowRight } from 'react-icons/fa'
 import { useRouter } from 'next/navigation'
 import { useRecoilState } from 'recoil'
 import { hotelTypeState } from '@/util/hotelState'
-import {getIconForType} from "@/constants/hotel";
-import {hotelTypes} from "@/constants/constants";
+import { getIconForType } from '@/constants/hotel'
+import { hotelTypes } from '@/constants/constants'
+import { toast } from 'react-toastify'
 
 export default function HotelType() {
   const router = useRouter()
@@ -28,6 +27,10 @@ export default function HotelType() {
 
   const handleNext = (e) => {
     e.preventDefault()
+    if (!selectedType) {
+      toast.error('숙소 유형을 선택해주세요.')
+      return
+    }
     router.push('/hotel/register/location')
   }
 
