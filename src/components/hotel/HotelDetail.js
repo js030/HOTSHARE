@@ -83,7 +83,9 @@ export default function HotelDetail({ id }) {
         <div className='col-span-3 sm:col-span-2'>
           <h2 className='text-xl font-semibold mb-4 mt-5'>기본 정보</h2>
           <div className='w-[55vw]'>
-            <div className='border-t-2 border-gray-200 mt-4 pt-4'></div>
+            <div className='w-[40vw]'>
+              <div className='border-t-2 border-gray-200 mt-4 pt-4'></div>
+            </div>
             <div className='flex items-center text-lg mb-2'>
               <MdLocationOn className='text-xl mr-2' />
               <p>
@@ -113,7 +115,9 @@ export default function HotelDetail({ id }) {
 
             <h2 className='text-xl font-semibold mb-4 mt-5'>편의 시설</h2>
             <div className='w-[55vw]'>
-              <div className='border-t-2 border-gray-200 mt-4 pt-4'></div>
+              <div className='w-[40vw]'>
+                <div className='border-t-2 border-gray-200 mt-4 pt-4'></div>
+              </div>
               <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
                 {amenitiesOptions
                   .filter((amenity) => hotel.facility.includes(amenity.type))
@@ -128,7 +132,9 @@ export default function HotelDetail({ id }) {
               <h2 className='text-xl font-semibold mb-4 mt-5'>소개</h2>
 
               <div className='w-[55vw]'>
-                <div className='border-t-2 border-gray-200 mt-4 pt-4'></div>
+                <div className='w-[40vw]'>
+                  <div className='border-t-2 border-gray-200 mt-4 pt-4'></div>
+                </div>
                 <div className='flex items-center text-lg mb-2'>
                   <p>{hotel.description}</p>
                 </div>
