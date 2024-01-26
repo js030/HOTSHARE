@@ -44,13 +44,16 @@ export const handleTokenError = async (error) => {
     const { accessToken } = await reissueAccessToken(
       sessionStorage.getItem('ACCESS_TOKEN_KEY'),
       sessionStorage.getItem('MEMBER_ID')
-    ).then((res) => {
-      const accessToken = res.data.objData
-      originalRequest.headers.Authorization = `Bearer ${accessToken}`
-      sessionStorage.setItem('ACCESS_TOKEN_KEY', accessToken)
-    })
-
-    return axiosInstance(originalRequest)
+    )
+      .then((res) => {
+        const accessToken = res.data.objData
+        originalRequest.headers.Authorization = `Bearer ${accessToken}`
+        sessionStorage.setItem('ACCESS_TOKEN_KEY', accessToken)
+        return axiosInstance(originalRequest)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
 
   if (
