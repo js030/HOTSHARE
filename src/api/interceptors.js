@@ -42,8 +42,7 @@ export const handleTokenError = async (error) => {
     data.code === ERROR_CODE.EXPIRED_ACCESS_TOKEN
   ) {
     const { accessToken } = await reissueAccessToken(
-      sessionStorage.getItem('ACCESS_TOKEN_KEY'),
-      sessionStorage.getItem('MEMBER_ID')
+      sessionStorage.getItem('ACCESS_TOKEN_KEY')
     )
       .then((res) => {
         const accessToken = res.data.objData

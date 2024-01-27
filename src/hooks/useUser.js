@@ -69,11 +69,11 @@ export const useLoginUser = () => {
     onSuccess: (res) => {
       const loginResult = res.data.objData
 
+      console.log(loginResult)
+
       const accessToken = loginResult.accessToken
-      const memberId = loginResult.memberId
 
       sessionStorage.setItem('ACCESS_TOKEN_KEY', accessToken)
-      sessionStorage.setItem('MEMBER_ID', memberId)
       axios.defaults.headers.Authorization = `Bearer ${accessToken}`
 
       toast.success('로그인에 성공했습니다!')
@@ -90,6 +90,43 @@ export const useLoginUser = () => {
   })
 
   return { submitLoginUser, isPending, isError, error }
+}
+
+const fetchKakaoLoginUser = async (code) => {
+  return await axios.post('/login/oauth/kakao', { code: code })
+}
+
+export const useKakaoLoginUser = () => {
+  const {
+    mutate: submitKakaoLoginUser,
+    isPending,
+    isError,
+    error,
+  } = useMutation({
+    mutationFn: (code) => {
+      return fetchKakaoLoginUser(code)
+    },
+    onSuccess: (res) => {
+      const loginResult = res.data.objData
+
+      console.log(loginResult)
+
+      const accessToken = loginResult.accessToken
+
+      sessionStorage.setItem('ACCESS_TOKEN_KEY', accessToken)
+      axios.defaults.headers.Authorization = `Bearer ${accessToken}`
+
+      toast.success('로그인에 성공했습니다!')
+      window.location.href = '/'
+    },
+    onError: (err) => {
+      console.log(err)
+
+      return err
+    },
+  })
+
+  return { submitKakaoLoginUser, isPending, isError, error }
 }
 
 const fetchUser = async () => {
