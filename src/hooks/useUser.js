@@ -93,7 +93,7 @@ export const useLoginUser = () => {
 }
 
 const fetchKakaoLoginUser = async (code) => {
-  return await axios.post('/login/oauth/kakao', { code: code })
+  return await axios.post('/login/kakao', { code: code })
 }
 
 export const useKakaoLoginUser = () => {
@@ -127,6 +127,43 @@ export const useKakaoLoginUser = () => {
   })
 
   return { submitKakaoLoginUser, isPending, isError, error }
+}
+
+const fetchGoogleLoginUser = async (code) => {
+  return await axios.post('/login/google', { code: code })
+}
+
+export const useGoogleLoginUser = () => {
+  const {
+    mutate: submitGoogleLoginUser,
+    isPending,
+    isError,
+    error,
+  } = useMutation({
+    mutationFn: (code) => {
+      return fetchGoogleLoginUser(code)
+    },
+    onSuccess: (res) => {
+      const loginResult = res.data.objData
+
+      console.log(loginResult)
+
+      const accessToken = loginResult.accessToken
+
+      sessionStorage.setItem('ACCESS_TOKEN_KEY', accessToken)
+      axios.defaults.headers.Authorization = `Bearer ${accessToken}`
+
+      toast.success('로그인에 성공했습니다!')
+      window.location.href = '/'
+    },
+    onError: (err) => {
+      console.log(err)
+
+      return err
+    },
+  })
+
+  return { submitGoogleLoginUser, isPending, isError, error }
 }
 
 const fetchUser = async () => {

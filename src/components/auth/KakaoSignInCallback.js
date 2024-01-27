@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useEffect } from 'react'
-import axios from '../../config/axios-config'
 import { useKakaoLoginUser } from '@/hooks/useUser'
 
 export default function KakaoSignInCallback({ code }) {

@@ -5,6 +5,7 @@ import { Input, Button } from '@nextui-org/react'
 import { FaUser, FaLock } from 'react-icons/fa'
 import { useLoginUser } from '@/hooks/useUser'
 import KakaoLogin from './KakaoLogin'
+import { GoogleLogin } from './GoogleLogin'
 
 export default function SignInForm() {
   const { submitLoginUser, isPending, isError, error } = useLoginUser()
@@ -68,6 +69,7 @@ export default function SignInForm() {
         </Button>
 
         <KakaoLogin />
+        <GoogleLogin />
       </form>
     </div>
   )
