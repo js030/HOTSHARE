@@ -3,15 +3,13 @@
 import { useNaverLoginUser } from '@/hooks/useUser'
 import React, { useEffect } from 'react'
 
-export default function NaverSignInCallback(code) {
-  console.log(code.code)
-
+export default function NaverSignInCallback(params) {
   const { submitNaverLoginUser, isPending, isError, error } =
     useNaverLoginUser()
 
   useEffect(() => {
-    submitNaverLoginUser(code.code)
+    submitNaverLoginUser(params)
   }, [])
 
-  return <div>NaverSignInCallback</div>
+  return <div>네이버 로그인 중입니다...</div>
 }

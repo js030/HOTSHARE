@@ -166,8 +166,12 @@ export const useGoogleLoginUser = () => {
   return { submitGoogleLoginUser, isPending, isError, error }
 }
 
-const fetchNaverLoginUser = async (code) => {
-  return await axios.post('/login/naver', { code: code })
+const fetchNaverLoginUser = async (params) => {
+  console.log('fecth function ', params)
+  return await axios.post('/login/naver', {
+    code: params.code.code,
+    state: params.code.state,
+  })
 }
 
 export const useNaverLoginUser = () => {
@@ -177,8 +181,8 @@ export const useNaverLoginUser = () => {
     isError,
     error,
   } = useMutation({
-    mutationFn: (code) => {
-      return fetchNaverLoginUser(code)
+    mutationFn: (params) => {
+      return fetchNaverLoginUser(params)
     },
     onSuccess: (res) => {
       const loginResult = res.data.objData
