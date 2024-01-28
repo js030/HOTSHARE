@@ -6,6 +6,7 @@ import { FaUser, FaLock } from 'react-icons/fa'
 import { useLoginUser } from '@/hooks/useUser'
 import KakaoLogin from './KakaoLogin'
 import { GoogleLogin } from './GoogleLogin'
+import NaverLogin from './NaverLogin'
 
 export default function SignInForm() {
   const { submitLoginUser, isPending, isError, error } = useLoginUser()
@@ -16,6 +17,7 @@ export default function SignInForm() {
   })
 
   const handleChange = (e) => {
+    e.preventDefault()
     const { name, value } = e.target
     setLoginForm({
       ...loginForm,
@@ -69,6 +71,7 @@ export default function SignInForm() {
         </Button>
 
         <KakaoLogin />
+        <NaverLogin />
         <GoogleLogin />
       </form>
     </div>

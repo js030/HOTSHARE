@@ -166,6 +166,43 @@ export const useGoogleLoginUser = () => {
   return { submitGoogleLoginUser, isPending, isError, error }
 }
 
+const fetchNaverLoginUser = async (code) => {
+  return await axios.post('/login/naver', { code: code })
+}
+
+export const useNaverLoginUser = () => {
+  const {
+    mutate: submitNaverLoginUser,
+    isPending,
+    isError,
+    error,
+  } = useMutation({
+    mutationFn: (code) => {
+      return fetchNaverLoginUser(code)
+    },
+    onSuccess: (res) => {
+      const loginResult = res.data.objData
+
+      console.log(loginResult)
+
+      const accessToken = loginResult.accessToken
+
+      sessionStorage.setItem('ACCESS_TOKEN_KEY', accessToken)
+      axios.defaults.headers.Authorization = `Bearer ${accessToken}`
+
+      toast.success('로그인에 성공했습니다!')
+      window.location.href = '/'
+    },
+    onError: (err) => {
+      console.log(err)
+
+      return err
+    },
+  })
+
+  return { submitNaverLoginUser, isPending, isError, error }
+}
+
 const fetchUser = async () => {
   const { data } = await axios.get('api/v1/members/info', {
     ...axios.defaults,

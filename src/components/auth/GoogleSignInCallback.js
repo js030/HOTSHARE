@@ -5,10 +5,13 @@ import React, { useEffect } from 'react'
 
 export default function GoogleSignInCallback(code) {
   console.log(code.code)
+
   const { submitGoogleLoginUser, isPending, isError, error } =
     useGoogleLoginUser()
+
   useEffect(() => {
     submitGoogleLoginUser(code.code)
   }, [])
-  return <div>GoogleSignInCallback</div>
+
+  return <div>구글 로그인 중입니다...</div>
 }

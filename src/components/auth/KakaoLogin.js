@@ -23,7 +23,8 @@ export default function KakaoLogin() {
     loadKakaoSDK()
   }, [])
 
-  const handleLogin = () => {
+  const handleKaKaoLoginButton = (e) => {
+    e.preventDefault()
     if (!window.Kakao || !window.Kakao.Auth) {
       console.error('카카오 SDK가 로드되지 않았거나, Auth 객체가 없습니다.')
       return
@@ -40,7 +41,7 @@ export default function KakaoLogin() {
 
   return (
     <button
-      onClick={handleLogin}
+      onClick={handleKaKaoLoginButton}
       className='flex items-center justify-center w-full py-2 rounded mt-5'>
       <Image src={kakaoLoginImage} alt='Kakao로 로그인' />
     </button>
