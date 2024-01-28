@@ -2,13 +2,15 @@
 
 import { useNaverLoginUser } from '@/hooks/useUser'
 import React, { useEffect } from 'react'
+import { useRecoilValueLoadable_TRANSITION_SUPPORT_UNSTABLE } from 'recoil'
 
-export default function NaverSignInCallback(params) {
+export default function NaverSignInCallback({ secret }) {
+  console.log(secret)
   const { submitNaverLoginUser, isPending, isError, error } =
     useNaverLoginUser()
 
   useEffect(() => {
-    submitNaverLoginUser(params)
+    submitNaverLoginUser(secret)
   }, [])
 
   return <div>네이버 로그인 중입니다...</div>

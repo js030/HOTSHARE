@@ -3,5 +3,5 @@ import NaverSignInCallback from '@/components/auth/NaverSignInCallback'
 
 export default function page({ searchParams }) {
   console.log(searchParams)
-  return <NaverSignInCallback code={searchParams} />
+  return <NaverSignInCallback secret={searchParams} />
 }

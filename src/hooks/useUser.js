@@ -103,6 +103,7 @@ export const useKakaoLoginUser = () => {
     isError,
     error,
   } = useMutation({
+    mutationKey: 'kakaoLogin',
     mutationFn: (code) => {
       return fetchKakaoLoginUser(code)
     },
@@ -140,6 +141,7 @@ export const useGoogleLoginUser = () => {
     isError,
     error,
   } = useMutation({
+    mutationKey: 'googleLogin',
     mutationFn: (code) => {
       return fetchGoogleLoginUser(code)
     },
@@ -166,11 +168,11 @@ export const useGoogleLoginUser = () => {
   return { submitGoogleLoginUser, isPending, isError, error }
 }
 
-const fetchNaverLoginUser = async (params) => {
-  console.log('fecth function ', params)
+const fetchNaverLoginUser = async (secret) => {
+  console.log('fecth function ', secret.code, secret.state)
   return await axios.post('/login/naver', {
-    code: params.code.code,
-    state: params.code.state,
+    code: secret.code,
+    state: secret.state,
   })
 }
 
@@ -181,8 +183,9 @@ export const useNaverLoginUser = () => {
     isError,
     error,
   } = useMutation({
-    mutationFn: (params) => {
-      return fetchNaverLoginUser(params)
+    mutationKey: 'naverLogin',
+    mutationFn: (secret) => {
+      return fetchNaverLoginUser(secret)
     },
     onSuccess: (res) => {
       const loginResult = res.data.objData

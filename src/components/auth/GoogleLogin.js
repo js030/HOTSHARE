@@ -19,7 +19,6 @@ export const GoogleLogin = () => {
       response_type: 'code',
       scope: scope,
       access_type: 'offline',
-      prompt: 'consent',
     })
 
     window.location.href = `${googleLoginURL}?${params.toString()}`
