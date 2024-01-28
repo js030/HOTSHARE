@@ -5,7 +5,6 @@ import React, { useEffect } from 'react'
 import { useRecoilValueLoadable_TRANSITION_SUPPORT_UNSTABLE } from 'recoil'
 
 export default function NaverSignInCallback({ secret }) {
-  console.log(secret)
   const { submitNaverLoginUser, isPending, isError, error } =
     useNaverLoginUser()
 
