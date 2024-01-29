@@ -11,18 +11,6 @@ export default function page() {
         <Link href='/hotel/payment' className='btn lg:w-32 '>
           결제하기
         </Link>
-        <Link href='/auth/signin' className='btn lg:w-32 '>
-          로그인
-        </Link>
-        <Link href='/auth/signup' className='btn lg:w-32 '>
-          회원가입
-        </Link>
-        <Link href='/mypage' className='btn lg:w-32 '>
-          마이페이지
-        </Link>
-        <Link href='/hotel/register' className='btn lg:w-32 '>
-          숙소 등록
-        </Link>
       </div>
     </section>
   )
