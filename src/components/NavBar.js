@@ -136,11 +136,14 @@ export default function Navbar() {
                 </DropdownTrigger>
                 <div className='md:flex lg:hidden mr-2'>
                   <DropdownMenu aria-label='Static Actions'>
-                    <DropdownItem key='new' href='/auth/signin'>
+                    <DropdownItem key='signin' href='/auth/signin'>
                       로그인
                     </DropdownItem>
-                    <DropdownItem key='copy' href='/auth/signup'>
+                    <DropdownItem key='signup' href='/auth/signup'>
                       회원가입
+                    </DropdownItem>
+                    <DropdownItem key='copy' href='/hotel'>
+                      전체 숙소
                     </DropdownItem>
                   </DropdownMenu>
                 </div>
