@@ -28,6 +28,8 @@ export default function NaverLogin() {
   const handleNaverLoginBtn = (e) => {
     e.preventDefault()
 
+    console.log('로그인 버튼 내부')
+
     if (naverLogin) {
       naverLogin.getLoginStatus((status) => {
         if (!status) {
