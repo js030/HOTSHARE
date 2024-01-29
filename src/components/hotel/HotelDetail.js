@@ -97,7 +97,7 @@ export default function HotelDetail({ id }) {
             </div>
             <div className='flex items-center text-lg mb-2'>
               <MdPerson4 className='text-xl mr-2' />
-              <p>호스트: {hotel.nickname}</p>
+              <p>호스트: {hotel.host}</p>
             </div>
             <div className='flex items-center text-lg mb-2'>
               <MdLocationOn className='text-xl mr-2' />
