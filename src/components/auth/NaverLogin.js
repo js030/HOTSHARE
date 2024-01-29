@@ -30,21 +30,18 @@ export default function NaverLogin() {
 
     console.log('로그인 버튼 내부')
 
-    if (naverLogin) {
-      console.log('네이버 로그인 객체 존재')
-      naverLogin.getLoginStatus((status) => {
-        if (!status) {
-          const state = generateRandomString()
-          window.location.href =
-            'https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=' +
-            process.env.NEXT_PUBLIC_NAVER_CLIENT_ID +
-            '&redirect_uri=' +
-            encodeURIComponent(process.env.NEXT_PUBLIC_NAVER_REDIRECT_URI) +
-            '&state=' +
-            state
-        }
-      })
-    }
+    naverLogin.getLoginStatus((status) => {
+      if (!status) {
+        const state = generateRandomString()
+        window.location.href =
+          'https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=' +
+          process.env.NEXT_PUBLIC_NAVER_CLIENT_ID +
+          '&redirect_uri=' +
+          encodeURIComponent(process.env.NEXT_PUBLIC_NAVER_REDIRECT_URI) +
+          '&state=' +
+          state
+      }
+    })
   }
 
   const generateRandomString = () => {
