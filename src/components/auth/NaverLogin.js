@@ -31,6 +31,7 @@ export default function NaverLogin() {
     console.log('로그인 버튼 내부')
 
     if (naverLogin) {
+      console.log('네이버 로그인 객체 존재')
       naverLogin.getLoginStatus((status) => {
         if (!status) {
           const state = generateRandomString()
