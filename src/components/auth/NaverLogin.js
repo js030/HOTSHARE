@@ -3,6 +3,7 @@
 import React, { useEffect, useRef } from 'react'
 
 export default function NaverLogin() {
+  const naverRef = useRef()
   let naverLogin
 
   useEffect(() => {
@@ -56,6 +57,7 @@ export default function NaverLogin() {
 
   return (
     <>
+      <div ref={naverRef} id='naverIdLogin'></div>
       <button onClick={handleNaverLoginBtn}>
         <img
           className='ml-4 w-[300px] h-12'
