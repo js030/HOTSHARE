@@ -3,8 +3,8 @@
 import React, { useEffect, useRef } from 'react'
 
 export default function NaverLogin() {
-  const naverRef = useRef()
-  let naverLogin
+  const naverRef = useRef(null)
+  const naverLogin = useRef(null)
 
   useEffect(() => {
     const naverScript = document.createElement('script')
@@ -14,14 +14,14 @@ export default function NaverLogin() {
     document.head.appendChild(naverScript)
 
     naverScript.onload = () => {
-      naverLogin = new window.naver.LoginWithNaverId({
+      naverLogin.current = new window.naver.LoginWithNaverId({
         clientId: process.env.NEXT_PUBLIC_NAVER_CLIENT_ID,
         callbackUrl: process.env.NEXT_PUBLIC_NAVER_REDIRECT_URI,
         callbackHandle: true,
         isPopup: false,
         loginButton: { color: 'green', type: 3, height: 55 },
       })
-      naverLogin.init()
+      naverLogin.current.init()
     }
   }, [])
 
@@ -30,18 +30,20 @@ export default function NaverLogin() {
 
     console.log('로그인 버튼 내부')
 
-    naverLogin.getLoginStatus((status) => {
-      if (!status) {
-        const state = generateRandomString()
-        window.location.href =
-          'https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=' +
-          process.env.NEXT_PUBLIC_NAVER_CLIENT_ID +
-          '&redirect_uri=' +
-          encodeURIComponent(process.env.NEXT_PUBLIC_NAVER_REDIRECT_URI) +
-          '&state=' +
-          state
-      }
-    })
+    if (naverLogin.current) {
+      naverLogin.current.getLoginStatus((status) => {
+        if (!status) {
+          const state = generateRandomString()
+          window.location.href =
+            'https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=' +
+            process.env.NEXT_PUBLIC_NAVER_CLIENT_ID +
+            '&redirect_uri=' +
+            encodeURIComponent(process.env.NEXT_PUBLIC_NAVER_REDIRECT_URI) +
+            '&state=' +
+            state
+        }
+      })
+    }
   }
 
   const generateRandomString = () => {
