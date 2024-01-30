@@ -11,15 +11,6 @@ import {
   MdFamilyRestroom,
   MdLocationOn,
   MdPerson4,
-<<<<<<< HEAD
-} from "react-icons/md";
-import ConfirmAlert from "../ui/modal/ConfirmAlert";
-import { amenitiesOptions } from "@/constants/hotel";
-import { useDeleteHotel } from "@/hooks/useHotel";
-import { formatPrice } from "@/constants/hotel";
-import { useUser } from "@/hooks/useUser";
-import LikeButton from "@/app/hotel/like/LikeButton";
-=======
 } from 'react-icons/md'
 import ConfirmAlert from '../ui/modal/ConfirmAlert'
 import { amenitiesOptions } from '@/constants/hotel'
@@ -27,7 +18,6 @@ import { useDeleteHotel } from '@/hooks/useHotel'
 import { formatPrice } from '@/constants/hotel'
 import { useUser } from '@/hooks/useUser'
 import LikeButton from '@/app/hotel/like/LikeButton'
->>>>>>> 9e094bc4656e2b207ced6e6f63d4743b4feef30c
 
 export default function HotelDetail({ id }) {
   const router = useRouter();
@@ -67,13 +57,8 @@ export default function HotelDetail({ id }) {
 
       <div className="border-t-2 border-gray-200 mt-4 pt-4"></div>
 
-<<<<<<< HEAD
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="md:col-span-2 mb-4 relative h-[600px]">
-=======
       <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
         <div className='md:col-span-2 mb-4 relative h-[600px]'>
->>>>>>> 9e094bc4656e2b207ced6e6f63d4743b4feef30c
           <Image
             src={mainImage}
             alt="Main Image"
@@ -81,11 +66,7 @@ export default function HotelDetail({ id }) {
             objectFit="cover"
             className="rounded-md"
           />
-<<<<<<< HEAD
-          <div className="absolute top-2 left-2">
-=======
           <div className='absolute top-2 left-2'>
->>>>>>> 9e094bc4656e2b207ced6e6f63d4743b4feef30c
             {user && <LikeButton hotelId={id} />}
           </div>
         </div>
