@@ -33,7 +33,9 @@ export default function HomeBanner() {
         {/* 탭 및 검색 바 추가 */}
         <div className='flex flex-wrap items-center justify-center space-x-10 md:space-x-8  md:space-y-2 space-y-5  md:mt-4 w-[80vw] bg-white rounded-lg p-5'>
           <SearchCity />
-          <SearchDate />
+          <div className='flex items-center'>
+            <SearchDate />
+          </div>
 
           <Button
             isIconOnly
