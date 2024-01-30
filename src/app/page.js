@@ -1,5 +1,4 @@
 import HomeBanner from '@/components/HomeBanner'
-import Link from 'next/link'
 
 export default function page() {
   return (
