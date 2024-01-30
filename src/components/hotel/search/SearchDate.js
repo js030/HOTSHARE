@@ -10,7 +10,7 @@ export default function SearchDate() {
   const [startDate, endDate] = dateRange
 
   return (
-    <div className=''>
+    <div>
       <div className='flex space-x-2 ml-2'>
         <FaCalendarAlt className='text-black' /> {/* 달력 아이콘 */}
         <span className='text-black'>날짜 선택</span> {/* 문구 */}
