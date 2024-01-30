@@ -39,7 +39,7 @@ export default function Navbar() {
       <div className='flex flex-1 gap-2'>
         <Link
           href='/'
-          className='font-semibold text-2xl flex justify-center items-center px-3 text-sage-750 dark:text-coral-500'>
+          className='font-bold text-xl flex justify-center items-center px-3 text-sage-750 dark:text-coral-500'>
           HOTSHARE
         </Link>
         <div className='hidden lg:flex'>
