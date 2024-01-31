@@ -63,13 +63,12 @@ export default function Navbar() {
                   <HotelIcon />
                   숙소 등록
                 </Link>
-                <Link href='/auth/logout'>
-                  <button
-                    onClick={handleLogout}
-                    className='bg-sage-600 text-sm font-semibold py-3 px-4'>
-                    로그아웃
-                  </button>
-                </Link>
+
+                <button
+                  onClick={handleLogout}
+                  className='bg-sage-600 text-sm font-semibold py-3 px-4'>
+                  로그아웃
+                </button>
               </div>
             ) : (
               <>
