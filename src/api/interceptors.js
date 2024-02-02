@@ -66,8 +66,7 @@ export const handleTokenError = async (error) => {
       data.code === ERROR_CODE.UNAUTHORIZED ||
       data.code === ERROR_CODE.INVALID_ACCESS_TOKEN)
   ) {
-    console.log(data.code)
-    // window.location.href = '/'
+    throw new HTTPError(status, data.message, data.code)
   }
 
   throw error
