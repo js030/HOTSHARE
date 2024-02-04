@@ -22,7 +22,7 @@ export default function SearchDate() {
         onChange={(update) => setDateRange(update)}
         dateFormat='yyyy/MM/dd'
         minDate={new Date()}
-        className='custom-date-picker-style bg-gray-100 mb-2 p-4 rounded-lg border border-black' // Tailwind CSS 클래스 적용
+        className='bg-gray-100 mb-2 p-4 rounded-lg border border-black' // Tailwind CSS 클래스 적용
       />
     </div>
   )

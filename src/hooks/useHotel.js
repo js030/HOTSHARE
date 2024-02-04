@@ -19,7 +19,6 @@ const fetchRegisterHotel = async (formData) => {
 }
 
 export const useRegisterHotel = () => {
-  const router = useRouter()
   const queryClient = useQueryClient()
   const {
     mutate: submitRegister,
@@ -34,10 +33,7 @@ export const useRegisterHotel = () => {
       return fetchRegisterHotel(formData)
     },
     onSuccess: (res) => {
-      console.log('호텔 등록 성공')
-
       toast.success('호텔이 성공적으로 등록되었습니다!')
-
       queryClient.invalidateQueries({ queryKey: ['hotels'] })
     },
     onError: (err) => {
@@ -54,7 +50,6 @@ export const useRegisterHotel = () => {
       } else {
         toast.error('호텔 등록에 실패했습니다 🥲')
       }
-
       return err
     },
   })

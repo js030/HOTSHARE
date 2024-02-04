@@ -37,6 +37,8 @@ export const handleTokenError = async (error) => {
 
   const { data, status } = error.response
 
+  console.log(error.response)
+
   if (
     status === HTTP_STATUS_CODE.BAD_REQUEST &&
     data.code === ERROR_CODE.EXPIRED_ACCESS_TOKEN
