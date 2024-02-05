@@ -23,7 +23,7 @@ export default function SearchSideBar() {
     <>
       <button
         onClick={toggleSidebar}
-        className='fixed z-20 top-28 left-4 p-2 bg-gray-300 text-white rounded'>
+        className='fixed z-20 top-24 left-4 p-2 bg-gray-300 text-white rounded'>
         {isOpen ? <FiX /> : <FiMenu />}
       </button>
       {isOpen && (
