@@ -210,3 +210,30 @@ export const useDeleteHotel = (hotelId) => {
 
   return { submitDelete, isPending, isError, error }
 }
+
+const fetchSearchHotels = async (page, district, startDate, endDate) => {
+  const { data } = await axios.get(
+    `/api/v1/hotels/search?page=${page}&district=${district}&startDate=${startDate}&endDate=${endDate}`
+  )
+
+  console.log('fetchSeartchHotels', data)
+
+  return data
+}
+
+export const useSearchHotels = (page, district, startDate, endDate) => {
+  const {
+    data: hotels,
+    isLoading,
+    isFetching,
+    isError,
+    error,
+    isPlaceholderData,
+  } = useQuery({
+    queryKey: ['searchHotels', district, startDate, endDate, page],
+    queryFn: () => fetchSearchHotels(page, district, startDate, endDate),
+    retry: 0,
+  })
+
+  return { hotels, isLoading, isFetching, isError, error, isPlaceholderData }
+}

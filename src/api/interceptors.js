@@ -47,7 +47,7 @@ export const handleTokenError = async (error) => {
       sessionStorage.getItem('ACCESS_TOKEN_KEY')
     )
       .then((res) => {
-        const accessToken = res.data.objData
+        const accessToken = res.data.objData.accessToken
         originalRequest.headers.Authorization = `Bearer ${accessToken}`
         sessionStorage.setItem('ACCESS_TOKEN_KEY', accessToken)
         return axiosInstance(originalRequest)
