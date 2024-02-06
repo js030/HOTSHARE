@@ -64,7 +64,9 @@ const ReviewList = ({ hotelId }) => {
     console.log('Review ID:', id)
 
     try {
-      await axios.delete(`http://localhost:8080/api/v1/review/delete/${id}`)
+      await axios.delete(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/v1/review/delete/${id}`
+      )
       console.log('리뷰가 성공적으로 삭제되었습니다.')
       // 삭제 후 리뷰 다시 로드
       fetchReviews()
